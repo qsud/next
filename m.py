@@ -6,7 +6,6 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
 import time
 import logging
-from keep_alive import keep_alive
 
 logging.basicConfig(filename="bot_errors.log", level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
 
