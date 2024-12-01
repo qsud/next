@@ -8,7 +8,7 @@ import time
 
 logging.basicConfig(filename="bot_errors.log", level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
 
-bot = telebot.TeleBot("YOUR_BOT_TOKEN_HERE")
+bot = telebot.TeleBot("7838760020:AAGbxrmDlSnAFHf1JIkux_1EvGTb_ZlRoJU")
 
 registered_users = {}
 
