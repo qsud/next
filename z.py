@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
 import time
 
-bot = telebot.TeleBot("7799612823:AAH-THN-DxDHTMI3yDMopXE3bj1q7yCpSsw")
+bot = telebot.TeleBot("7838760020:AAGbxrmDlSnAFHf1JIkux_1EvGTb_ZlRoJU")
 
 registered_users = {}
 
