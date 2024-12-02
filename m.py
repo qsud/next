@@ -7,6 +7,7 @@ import threading
 import time
 import logging
 from flask import Flask
+
 logging.basicConfig(filename="bot_errors.log", level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
 
 bot = telebot.TeleBot("7838760020:AAGbxrmDlSnAFHf1JIkux_1EvGTb_ZlRoJU")
@@ -127,7 +128,12 @@ def print_all_senders(wallet_name, minimum_winrate, minimum_pnl, user_id):
         current_scanning_user = None
         return
 
+    total_runtime = 0  # Tracks runtime in seconds
+    scan_interval = 600  # 10 minutes in seconds
+    rest_interval = 180  # 3 minutes in seconds
+
     while scanning_event.is_set():
+        start_time = time.time()
         signatures = get_signatures(wallet_address)
         approved_wallets = []
 
@@ -143,7 +149,20 @@ def print_all_senders(wallet_name, minimum_winrate, minimum_pnl, user_id):
                     approved_wallets.append(result)
                     bot.send_message(user_id, result)
 
-        time.sleep(5)
+        # Update total runtime
+        elapsed_time = time.time() - start_time
+        total_runtime += elapsed_time
+
+        # If total runtime exceeds scan interval, rest for 3 minutes
+        if total_runtime >= scan_interval:
+            bot.send_message(user_id, "Taking a 3-minute break...")
+            scanning_event.clear()
+            time.sleep(rest_interval)
+            bot.send_message(user_id, "Resuming scan...")
+            total_runtime = 0  # Reset total runtime
+            scanning_event.set()
+
+        time.sleep(5) 
 
 @bot.message_handler(commands=['on'])
 def on_command(message):
